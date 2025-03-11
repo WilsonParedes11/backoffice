@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import authImage from '../assets/logo.png';
 
@@ -7,7 +8,9 @@ const AdminAuth = () => {
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null); // Nuevo estado para mensajes de éxito
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Función para registrar un nuevo administrador
   const handleRegister = async () => {
@@ -15,10 +18,11 @@ const AdminAuth = () => {
       setError('Por favor completa todos los campos');
       return;
     }
-  
+
     setIsLoading(true);
     setError(null);
-  
+    setSuccess(null); // Limpiar mensaje de éxito previo
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -29,11 +33,11 @@ const AdminAuth = () => {
         throw error;
       }
       if (!data.user) throw new Error('No se pudo obtener el usuario registrado');
-  
+
       setEmail('');
       setPassword('');
       setIsRegistering(false);
-      alert('Registro exitoso. Por favor, revisa tu correo para confirmar tu cuenta.');
+      setSuccess('Registro exitoso. Por favor, revisa tu correo para confirmar tu cuenta.');
     } catch (err) {
       console.error('Error completo:', err);
       setError((err as Error).message);
@@ -51,18 +55,18 @@ const AdminAuth = () => {
 
     setIsLoading(true);
     setError(null);
+    setSuccess(null); // Limpiar mensaje de éxito previo
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
       if (error) throw error;
 
       setEmail('');
       setPassword('');
-      alert('Inicio de sesión exitoso');
+      navigate('/dashboard'); // Redirigir directamente al Dashboard
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -71,7 +75,7 @@ const AdminAuth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 ">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50">
       <div className="w-full max-w-md mx-4 overflow-hidden bg-white rounded-lg shadow-lg">
         {/* Imagen superior en diseño minimalista */}
         <div className="relative h-36 bg-zinc-100 flex items-center justify-center">
@@ -123,6 +127,11 @@ const AdminAuth = () => {
                 <p className="text-sm text-red-600">{error}</p>
               </div>
             )}
+            {success && (
+              <div className="py-2 px-3 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-sm text-green-600">{success}</p>
+              </div>
+            )}
 
             <button
               onClick={isRegistering ? handleRegister : handleLogin}
@@ -131,9 +140,25 @@ const AdminAuth = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Procesando...
                 </span>
@@ -148,6 +173,7 @@ const AdminAuth = () => {
               onClick={() => {
                 setIsRegistering(!isRegistering);
                 setError(null);
+                setSuccess(null); // Limpiar mensaje de éxito al cambiar modo
               }}
               className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-all"
             >

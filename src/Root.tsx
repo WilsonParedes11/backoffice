@@ -1,7 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminAuth from './components/AdminAuth'; // Componente de autenticación
-import App from './App';
+import AdminAuth from './components/AdminAuth';
+import Dashboard from './components/Dashboard';
+import Forms from './components/Forms'; // Placeholder para la ruta /forms
+import CreateForm from './components/CreateForm'; // Placeholder para la ruta /create-form
 
 const Root = () => {
   return (
@@ -11,7 +13,31 @@ const Root = () => {
         path="/"
         element={
           <ProtectedRoute>
-            <App />
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/forms"
+        element={
+          <ProtectedRoute>
+            <Forms />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-form"
+        element={
+          <ProtectedRoute>
+            <CreateForm />
           </ProtectedRoute>
         }
       />
