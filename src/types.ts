@@ -1,10 +1,10 @@
-// src/types.ts
 export interface Form {
     id?: string;
     admin_id: string;
     title: string;
     description?: string;
     created_at?: string;
+    questions?: Question[]; // Relación opcional para incluir preguntas
   }
   
   export type QuestionType = 'multiple_choice' | 'multi_select' | 'short_answer' | 'true_false';
