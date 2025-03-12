@@ -198,5 +198,5 @@ CREATE TABLE questions (
 https://backoffice-iota-ten.vercel.app/login
 
 1. Para acceder a la gestion del sistema debe crear un cuenta.
-2. Confirma el registro en su email que sera evia a su correo
+2. Optendra un mensaje de cofirme su correo, pero como no se esta configurando smpt solo actulice la paguina o directamente inicie seccio.
 3. una vez confirmado el email tiene acceso a la gestion del sistema.
