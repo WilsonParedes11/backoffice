@@ -193,3 +193,10 @@ CREATE TABLE questions (
       AND forms.admin_id = auth.uid()
     )
   );
+
+## URl del Sistema en producion.
+https://backoffice-5s23owi0g-wilsons-projects-de3a5c86.vercel.app/login
+
+1. Para acceder a la gestion del sistema debe crear un cuenta.
+2. Confirma el registro en su email que sera evia a su correo
+3. una vez confirmado el email tiene acceso a la gestion del sistema.
