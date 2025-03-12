@@ -1,26 +1,30 @@
 // src/components/Forms.tsx
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { useForms } from '../hooks/useForms';
 import { FormCard } from './FormCard';
-import { QuestionList } from './QuestionList';
 import { ErrorBoundary } from './ErrorBoundary';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Forms = () => {
-  const {
-    forms,
-    loading,
-    error,
-    selectedFormId,
-    setSelectedFormId,
-    selectedFormQuestions,
-    updateQuestion,
-    deleteQuestion,
-    addQuestion,
-  } = useForms();
+  const { forms, loading, error, deleteForm, updateForm } = useForms();
+  const navigate = useNavigate();
 
   const handleFormClick = (formId: string) => {
-    setSelectedFormId(formId === selectedFormId ? null : formId);
+    navigate(`/forms/${formId}`);
+  };
+
+  const handleDeleteForm = (formId: string) => {
+    deleteForm(formId)
+      .then(() => toast.success('Formulario eliminado con éxito'))
+      .catch(() => toast.error('Error al eliminar el formulario'));
+  };
+
+  const handleUpdateForm = (formId: string, updatedData: Partial<Form>) => {
+    updateForm(formId, updatedData)
+      .then(() => toast.success('Formulario actualizado con éxito'))
+      .catch(() => toast.error('Error al actualizar el formulario'));
   };
 
   return (
@@ -43,31 +47,22 @@ const Forms = () => {
               <p className="text-gray-500 text-lg">No hay formularios creados aún.</p>
             )}
             {!loading && forms.length > 0 && (
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {forms.map((form) => (
-                  <div key={form.id}>
-                    <FormCard
-                      form={form}
-                      isSelected={selectedFormId === form.id}
-                      onClick={handleFormClick}
-                    />
-                    {selectedFormId === form.id && (
-                      <div className="mt-6">
-                        <QuestionList
-                          questions={selectedFormQuestions}
-                          onUpdate={updateQuestion}
-                          onDelete={deleteQuestion}
-                          onAdd={(question) => addQuestion(form.id!, question)}
-                        />
-                      </div>
-                    )}
-                  </div>
+                  <FormCard
+                    key={form.id}
+                    form={form}
+                    onClick={handleFormClick}
+                    onDelete={handleDeleteForm}
+                    onUpdate={handleUpdateForm}
+                  />
                 ))}
               </div>
             )}
           </ErrorBoundary>
         </main>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

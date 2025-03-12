@@ -53,7 +53,7 @@ export const QuestionForm = ({ question, onSave, onCancel, isEditing = false }: 
         <option value="short_answer">Respuesta Corta</option>
         <option value="multiple_choice">Opción Múltiple</option>
         <option value="multi_select">Selección Múltiple</option>
-        <option value="true_false">Verdadero/Falso</option>
+        
       </select>
       {(formData.type === 'multiple_choice' || formData.type === 'multi_select') && (
         <div className="space-y-2">

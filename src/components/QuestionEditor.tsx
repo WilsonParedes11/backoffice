@@ -45,7 +45,7 @@ export const QuestionEditor = ({
           <option value="short_answer">Respuesta Corta</option>
           <option value="multiple_choice">Opción Múltiple</option>
           <option value="multi_select">Selección Múltiple</option>
-          <option value="true_false">Verdadero/Falso</option>
+         
         </select>
       </div>
       {(newQuestion.type === 'multiple_choice' || newQuestion.type === 'multi_select') && (
