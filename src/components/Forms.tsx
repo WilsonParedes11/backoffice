@@ -6,6 +6,8 @@ import { useForms } from '../hooks/useForms';
 import { FormCard } from './FormCard';
 import { ErrorBoundary } from './ErrorBoundary';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Form } from '../types';
 
 const Forms = () => {
   const { forms, loading, error, deleteForm, updateForm } = useForms();
