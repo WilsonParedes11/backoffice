@@ -10,7 +10,7 @@ interface QuestionListProps {
 }
 
 export const QuestionList = ({ questions, onUpdate, onDelete, onAdd }: QuestionListProps) => {
-  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
+  const [editingQuestion, setEditingQuestion] = useState<Partial<Question> | null>(null);
 
   return (
     <div className="space-y-6">
@@ -25,7 +25,7 @@ export const QuestionList = ({ questions, onUpdate, onDelete, onAdd }: QuestionL
             {editingQuestion?.id === question.id ? (
               <QuestionForm
                 question={editingQuestion}
-                onSave={onUpdate}
+                onSave={(question) => onUpdate(question as Question)}
                 onCancel={() => setEditingQuestion(null)}
                 isEditing
               />
