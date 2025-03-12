@@ -22,10 +22,10 @@ export const QuestionList = ({ questions, onUpdate, onDelete, onAdd }: QuestionL
             key={question.id}
             className="p-5 bg-white rounded-2xl shadow-md border border-gray-200"
           >
-            {editingQuestion?.id === question.id ? (
+            {editingQuestion?.id === question.id && editingQuestion ? (
               <QuestionForm
                 question={editingQuestion}
-                onSave={(question) => onUpdate(question as Question)}
+                onSave={(q) => onUpdate(q as Question)}
                 onCancel={() => setEditingQuestion(null)}
                 isEditing
               />
